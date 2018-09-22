@@ -15,7 +15,7 @@ def tetris():
     actions = []
     s = data['tetrominoSequence']
 
-    actions.extend([0, 2]*50)
+    actions.extend([0, 0, 0, 2, 0, 4, 0, 6, 0, 8]*20)
 
 
     print("My result :{}".format(actions))
