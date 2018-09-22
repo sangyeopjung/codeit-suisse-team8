@@ -13,7 +13,6 @@ def possiblePrimeArray(num):
         for num in range(2, possiblePrime):
             if possiblePrime % num == 0:
                 isPrime = False
-
         if isPrime:
             primes.append(possiblePrime)
     return primes
@@ -38,6 +37,7 @@ def evaluatePrimeSum():
         if prime == num:
             ans = [prime]
             result = temp
+            break
         else:
             i = 0
             temp = []
