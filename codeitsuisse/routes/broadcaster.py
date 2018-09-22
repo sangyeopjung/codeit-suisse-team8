@@ -47,7 +47,27 @@ def broadcaster1():
 def broadcaster2():
     data = request.get_json()['data']
 
+    outerList = []
+    for s in data:
+        t = s.split("->")
+        head, tail = t[0], t[1]
+        innerList = [t[0], t[1]]
+        outerList.append(innerList)
 
+    length = len(outerList)
+    while True:
+        exist = False
+        for a in outerList:
+            for b in outerList:
+                if a[0] == b[-1]:
+                    exist = True
+                    b.append(a[-1])
+                    outerList.remove(a)
+
+        if exist == False:
+            break
+
+    result = [max(outerList,key=len)[0]]
 
 
 
