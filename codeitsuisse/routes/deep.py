@@ -44,7 +44,9 @@ def deeep():
     model = tf.keras.models.load_model('my_model.h5')
     X = np.array(data['question']).reshape(-1, 28, 28)
 
-    result = list(map(lambda k: tf.argmax(k, axis=0), model.predict(X)))
+    print(model.predict(X))
+    pred = model.predict(X)
+    result = list(map(lambda k: int(np.argmax(k, axis=0)), pred))
 
     print("My result :{}".format(result))
 
