@@ -32,7 +32,7 @@ def addList(l):
 
 
 
-@app.route('/PrimeSume', methods=['POST'])
+@app.route('/PrimeSum', methods=['POST'])
 def evaluatePrimeSum():
     data = request.get_json();
     logging.info("data sent for evaluation {}".format(data))
