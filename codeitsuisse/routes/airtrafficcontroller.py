@@ -17,6 +17,6 @@ def evaluate():
     print(flights, flights[0])
     print(reservedTime)
 
-    print("My result :{}".format(result))
+    # print("My result :{}".format(result))
     #return jsonify(result);
     return 0;
