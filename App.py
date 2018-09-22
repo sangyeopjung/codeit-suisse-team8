@@ -21,5 +21,5 @@ if __name__ == "__main__":
     rootLogger.addHandler(consoleHandler)
 
     logger.info("Starting application ...")
-    app.run()
+    app.run(debug=True)
 
