@@ -42,7 +42,7 @@ def skill_tree():
     minList = []
 
 
-    end = datetime.now() + timedelta(seconds=5)
+    end = datetime.now() + timedelta(seconds=10)
     cur = datetime.now()
     count = 0
     while (end - cur).seconds > 0:
@@ -64,5 +64,6 @@ def skill_tree():
         if (minList is not None or temporaryPoints < min):
             minList = temporaryList
             min = temporaryPoints
+    print(count)
     logging.info("My result :{}".format(minList))
     return jsonify(minList)
