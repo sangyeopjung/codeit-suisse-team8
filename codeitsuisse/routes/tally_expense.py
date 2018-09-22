@@ -18,9 +18,6 @@ def tally_expense():
         print(expense)
         ledger[expense['paidBy']] += expense['amount']
         if 'exclude' in expense:
-            # if len(expense['exclude']) == n:
-            #     continue
-
             new_persons = [p for p in persons if p not in expense['exclude']]
             per_head = expense['amount']/(n-len(expense['exclude']))
             for p in new_persons:
@@ -55,7 +52,7 @@ def tally_expense():
                 transactions.append({
                     "from": p[0],
                     "to": minus[i][0],
-                    "amount": "%.2f" % round((-1)*minus[i][1], 2)
+                    "amount": float("%.2f" % round((-1)*minus[i][1], 2))
                 })
                 minus[i][1] = 0
                 i += 1
@@ -66,7 +63,7 @@ def tally_expense():
                 transactions.append({
                     "from": p[0],
                     "to": minus[i][0],
-                    "amount": "%.2f" % round(p[1]/100, 2)
+                    "amount": float("%.2f" % round(p[1]/100, 2))
                 })
                 p[1] = 0
 
@@ -75,7 +72,7 @@ def tally_expense():
                 transactions.append({
                     "from": p[0],
                     "to": minus[i][0],
-                    "amount": "%.2f" % round(p[1]/100, 2)
+                    "amount": float("%.2f" % round(p[1]/100, 2))
                 })
                 p[1] = 0
                 minus[i][1] = 0
