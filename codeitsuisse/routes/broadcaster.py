@@ -1,41 +1,50 @@
 import logging
 
-from flask import request, jsonify;
-
-from codeitsuisse import app;
+from flask import request, jsonify
+from codeitsuisse import app
 
 logger = logging.getLogger(__name__)
+
+
+def dfs(G, used, v, order):
+    used[v] = 1
+    print(v)
+    if v in G:
+        for to in G[v]:
+            if to not in used:
+                dfs(G, used, to, order)
+    order.append(v)
 
 
 @app.route('/broadcaster/message-broadcast', methods=['POST'])
 def broadcaster():
     data = request.get_json()['data']
 
-    indeg = {}
-    outdeg = {}
+    g = {}
 
-    all = []
     for s in data:
         t = s.split("->")
         u, v = t[0], t[1]
+        if u not in g:
+            g[u] = []
+        g[u].append(v)
 
-        if v not in indeg:
-            indeg[v] = 0
-        if u not in outdeg:
-            outdeg[u] = 0
+    topSort = []
+    used = {}
+    for key in g:
+        if key not in used:
+            order = []
+            dfs(g, used, key, order)
+            topSort.extend(order)
 
-        indeg[v] += 1
-        outdeg[u] += 1
+    result = []
+    topSort = topSort[::-1]
+    used = {}
+    for v in topSort:
+        print(v)
+        if v not in used:
+            result.append(v)
+            dfs(g, used, v, [])
 
-        if u not in all:
-            all.append(u)
-        if v not in all:
-            all.append(v)
-
-    res = []
-    for node in all:
-        if node not in indeg:
-            res.append(node)
-
-    print("My result :{}".format(res))
-    return jsonify(answer=res)
+    print("My result :{}".format(result))
+    return jsonify(answer=result)
