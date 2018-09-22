@@ -17,10 +17,10 @@ def airtraffic():
     flights = data.get("Flights")
     numOfFlights = len(flights)
     sorted_flights = sorted(flights, key=lambda kv: kv["Time"])
-    reservedTime = data.get("Static").ReserveTime
+    reservedTime = data.get("Static").get("ReserveTime")
     #result = {"Flights" : []}
     if "Runways" in data.get("Static").keys():
-        runways = data.get("Static").Runways
+        runways = data.get("Static").get("Runways")
         num0fRunways = len(runways)
         for counter, flight in enumerate(sorted_flights):
             if(sorted_flights.get("Distressed", False)):
