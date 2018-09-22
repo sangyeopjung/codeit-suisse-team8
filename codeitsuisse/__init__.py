@@ -2,6 +2,4 @@ from flask import Flask;
 app = Flask(__name__)
 
 app.debug = True
-import codeitsuisse.routes.square
-import codeitsuisse.routes.tally_expense
-import codeitsuisse.routes.airtrafficcontroller
+from codeitsuisse.routes import *
