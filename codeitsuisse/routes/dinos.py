@@ -53,7 +53,7 @@ def dino():
             su -= mod
     result = 0
     for i in range(400010):
-        result += dp1[i] * su
+        result += dp1[i] * su % mod
         if result >= mod:
             result -= mod
         if le < i + 1 - Q:
