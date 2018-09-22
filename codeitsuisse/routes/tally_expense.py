@@ -28,13 +28,13 @@ def tally_expense():
                 ledger[p] -= expense['amount']/n
                 print(p, ledger[p])
 
-    plus = [] # People who need to pay more
-    minus = [] # People who need to receive money
+    plus = []
+    minus = []
     for k, v in ledger.items():
         if v < 0:
-            minus.append([k, v])
-        else:
             plus.append([k, v])
+        else:
+            minus.append([k, v])
 
     print('plus', plus)
     print('minus', minus)
@@ -43,12 +43,11 @@ def tally_expense():
     i = 0
     for p in plus:
         while p[1] > 0:
-            if i >= len(minus):
-                break
+            # if i >= len(minus):
+            #     break
 
-            if p[1] > (-1)*minus[i][1]:
+            if p[1] >= (-1)*minus[i][1]:
                 p[1] += minus[i][1]
-                #print("send ", minus[i][0], "from", p[0], "to", minus[i][0])
                 transactions.append({
                     "from": p[0],
                     "to": minus[i][0],
@@ -57,26 +56,14 @@ def tally_expense():
                 minus[i][1] = 0
                 i += 1
 
-            elif p[1] < (-1)*minus[i][1]:
-                minus[i][1] += p[1]
-                #print("send ", p[1], "from", p[0], "to", minus[i][0])
-                transactions.append({
-                    "from": p[0],
-                    "to": minus[i][0],
-                    "amount": float("%.2f" % round(p[1]/100, 2))
-                })
-                p[1] = 0
-
             else:
-                #print("send ", p[1], "from", p[0], "to", minus[i][0])
+                minus[i][1] += p[1]
                 transactions.append({
                     "from": p[0],
                     "to": minus[i][0],
                     "amount": float("%.2f" % round(p[1]/100, 2))
                 })
                 p[1] = 0
-                minus[i][1] = 0
-                i += 1
 
     print("My result :{}".format(transactions))
     return jsonify(transactions=transactions)
