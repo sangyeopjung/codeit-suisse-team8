@@ -42,17 +42,11 @@ def skill_tree():
     minList = []
 
 
-    end = datetime.now() + timedelta(seconds=7)
+    end = datetime.now() + timedelta(seconds=5)
     cur = datetime.now()
-    print((end - cur).seconds)
-    print("beend ", end)
-    print("bescur ", cur)
     count = 0
     while (end - cur).seconds > 0:
         count+=1
-        print((end - cur).seconds)
-        print("end ", end)
-        print("cur ", cur)
         cur = datetime.now()
         temporaryList = []
         temporaryPoints = 0
@@ -60,12 +54,8 @@ def skill_tree():
         while(offense>0):
             num = random.randrange(0, num_skills)
             if(skills[num].get("name") in temporaryList):
-                print(skills[num].get("name"))
-                print(minList)
                 continue
             if(skills[num].get("require") is not None and skills[num].get("require") not in temporaryList):
-                print(skills[num].get("require"))
-                print(minList)
                 continue
             offense -= skills[num].get("offense")
             temporaryPoints += skills[num].get("points")
@@ -74,6 +64,5 @@ def skill_tree():
         if (minList is not None or temporaryPoints < min):
             minList = temporaryList
             min = temporaryPoints
-    print("Tried ",count," times")
     logging.info("My result :{}".format(minList))
     return jsonify(minList)
