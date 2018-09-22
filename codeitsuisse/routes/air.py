@@ -150,6 +150,8 @@ def air():
             response.append({'PlaneId': flight['PlaneId'], 'Time': time.strftime("%H%M"), 'Runway': rw})
             time = time + timedelta(0, reserve)
             times[rw] = time
+
+            print('Response: {}'.format(response))
             #heappush(runways, (time, runway))
         return jsonify(Flights=response)
     else:
