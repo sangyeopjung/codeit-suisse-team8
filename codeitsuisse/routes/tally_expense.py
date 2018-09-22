@@ -18,8 +18,8 @@ def tally_expense():
         print(expense)
         ledger[expense['paidBy']] += expense['amount']
         if 'exclude' in expense:
-            if len(expense['exclude']) == n:
-                continue
+            # if len(expense['exclude']) == n:
+            #     continue
 
             new_persons = [p for p in persons if p not in expense['exclude']]
             per_head = expense['amount']/(n-len(expense['exclude']))
@@ -31,8 +31,8 @@ def tally_expense():
                 ledger[p] -= expense['amount']/n
                 print(p, ledger[p])
 
-    plus = []
-    minus = []
+    plus = [] # People who need to pay more
+    minus = [] # People who need to receive money
     for k, v in ledger.items():
         if v < 0:
             minus.append([k, v])
