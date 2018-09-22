@@ -16,25 +16,26 @@ def airtraffic():
 
     flights = data.get("Flights")
     numOfFlights = len(flights)
-    sorted_flights = sorted(flights, key=lambda kv: kv["Time"])
+    sorted_flights = sorted(flights, key=lambda kv: (kv["Time"], kv["PlaneId"]))
+    #sorted_flights = sorted(sorted_flights, key=lambda kv: kv["Time"])
     reservedTime = data.get("Static").get("ReserveTime")
     #result = {"Flights" : []}
     if "Runways" in data.get("Static").keys():
         runways = data.get("Static").get("Runways")
-        num0fRunways = len(runways)
+        lengthRun = len(runways)
         for counter, flight in enumerate(sorted_flights):
             if(flight.get("Distressed", False)):
                 flight.pop("Distressed")
                 reserved_flight = flight
                 sorted_flights.remove(flight)
                 sorted_flights.insert(0, reserved_flight)
-            if(counter >= numOfRunways):
-                before = datetime.strptime(sorted_flights[counter-1]["Time"], "%H%M")
+            if(counter >= lengthRun):
+                before = datetime.strptime(sorted_flights[counter-lengthRun]["Time"], "%H%M")
                 after = datetime.strptime(sorted_flights[counter]["Time"], "%H%M")
                 if after < before + timedelta(seconds=int(reservedTime)):
                      sorted_flights[counter]["Time"] = (before + timedelta(seconds=int(reservedTime))).strftime("%H%M")
         for counter, flight in enumerate(sorted_flights):
-            flight["Runway"] = runways[counter%num0fRunways]
+            flight["Runway"] = runways[counter%lengthRun]
 
         #result = {"Flights" : [{ "PlaneId": "TR123", "Time": "0200", "Runway": "A"}]}
     else:
