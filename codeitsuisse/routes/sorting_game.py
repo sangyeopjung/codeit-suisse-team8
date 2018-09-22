@@ -8,7 +8,7 @@ logger = logging.getLogger(__name__)
 
 
 @app.route('/sorting-game', methods=['POST'])
-def images_gps():
+def sorting():
     data = request.get_json()
     print("data sent for evaluation {}".format(data))
 
