@@ -26,10 +26,10 @@ def broadcaster1():
         head, tail = t[0], t[1]
         if tail not in tailList:
             tailList.append(t[1])
-        if head not in headList and head not in tailList:
-            headList.append(t[0])
-    print("My result :{}".format(result))
-    return jsonify(headList)
+            if head not in tailList:
+                headList.append(t[0])
+    print("My result :{}".format(headList))
+    return jsonify(answer=headList)
 
 
 @app.route('/broadcaster/most-connected-node', methods=['POST'])
