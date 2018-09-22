@@ -36,8 +36,7 @@ def evaluatePrimeSum():
     for prime in primes:
         if prime == num:
             ans = [prime]
-            result = temp
-            break
+            return jsonify(ans)
         else:
             i = 0
             temp = []
@@ -45,8 +44,7 @@ def evaluatePrimeSum():
             while i < len(primes):
                 if primes[i] != prime:
                     if addList(temp) == num:
-                        result = temp
-                        break
+                        return jsonify(temp)
                     elif (addList(temp) + primes[i])< num:
                         temp.append(primes[i])
                     else:
