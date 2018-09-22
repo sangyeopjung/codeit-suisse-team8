@@ -1,7 +1,5 @@
 import logging
 
-import numpy as np
-
 from flask import request, jsonify;
 
 from codeitsuisse import app;
@@ -23,8 +21,10 @@ def dino():
     dp1 = [0 for _ in range(400010)]
     dp2 = [0 for _ in range(400010)]
     temp = [0 for _ in range(400010)]
+
     dp1[0] = 1
     dp2[0] = 1
+    temp[0] = 1
 
     mod = 100000123
 
@@ -37,6 +37,7 @@ def dino():
         dp1, temp = temp, dp1
 
     temp = [0 for _ in range(400010)]
+    temp[0] = 1
     for i in range(len(B)):
         for j in range(400010):
             if dp2[j]:
