@@ -14,6 +14,6 @@ def images_gps():
 
     print(data)
 
-    print("My result :{}".format(result))
-    return jsonify(result);
+    # print("My result :{}".format(result))
+    # return jsonify(result);
     return 0;
