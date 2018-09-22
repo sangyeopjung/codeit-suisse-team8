@@ -19,30 +19,28 @@ def dfs(G, used, v, order):
 def broadcaster():
     data = request.get_json()['data']
 
-    g = {}
+    message_dict = dict()
 
     for s in data:
         t = s.split("->")
-        u, v = t[0], t[1]
-        if u not in g:
-            g[u] = []
-        g[u].append(v)
+        head, tail = t[0], t[1]
+        if t[0] in message_dict:
+            message_dict[t[0]].append(t[1])
+        else:
+            message_dict[t[0]] = [t[1]]
 
-    topSort = []
-    used = {}
-    for key in g:
-        if key not in used:
-            order = []
-            dfs(g, used, key, order)
-            topSort.extend(order)
+    tempKey = ""
+    for key in message_dict.keys():
+        for val in message_dict.values():
+            if key in val:
+                tempKey = key
+    del message_dict[tempKey]
 
     result = []
-    topSort = topSort[::-1]
-    used = {}
-    for v in topSort:
-        if v not in used:
-            result.append(v)
-            dfs(g, used, v, [])
+    for key in message_dict:
+        result.append(key)
+
+
 
     print("My result :{}".format(result))
     return jsonify(answer=result)
