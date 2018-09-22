@@ -63,7 +63,7 @@ def broadcaster2():
                     exist = True
                     b.append(a[-1])
                     outerList.remove(a)
-
+                    break
         if exist == False:
             break
 
