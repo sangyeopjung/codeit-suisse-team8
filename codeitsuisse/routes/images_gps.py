@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 
 @app.route('/imagesGPS', methods=['POST'])
 def images_gps():
-    data = request.get_json();
+    data = request.get_json()
     print("data sent for evaluation {}".format(data))
 
     print(data)
