@@ -42,7 +42,7 @@ def skill_tree():
     minList = []
 
 
-    end = datetime.now() + timedelta(seconds=1)
+    end = datetime.now() + timedelta(seconds=10)
     cur = datetime.now()
     count = 0
     while (end - cur).seconds > 0:
