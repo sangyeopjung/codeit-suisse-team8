@@ -8,7 +8,6 @@ logger = logging.getLogger(__name__)
 
 def dfs(G, used, v, order):
     used[v] = 1
-    print(v)
     if v in G:
         for to in G[v]:
             if to not in used:
