@@ -31,7 +31,7 @@ def airtraffic():
                 before = datetime.strptime(sorted_flights[i-1]["Time"], "%H%M")
                 after = datetime.strptime(sorted_flights[i]["Time"], "%H%M")
                 if after < before + timedelta(seconds=int(reservedTime)):
-                     sorted_flights[i]["Time"] = (before + timedelta(seconds=int(reservedTime))).strftime("%H%M")
+                     sorted_flights[counter]["Time"] = (before + timedelta(seconds=int(reservedTime))).strftime("%H%M")
         for counter, flight in enumerate(sorted_flights):
             flight["Runway"] = runways[counter%num0fRunways]
 
