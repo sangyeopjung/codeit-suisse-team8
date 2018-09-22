@@ -32,29 +32,32 @@ def evaluatePrimeSum():
     num = inputValue
     primes = possiblePrimeArray(num)
     result = []
+    count = len(primes)-1
 
-    for prime in primes:
-        if prime == num:
-            ans = [prime]
-            return jsonify(ans)
+    while count >=0:
+        if primes[count] == num:
+            ans = [primes[count]]
+            result = ans
+            break
         else:
             i = 0
             temp = []
             temp.append(prime)
-            while i < len(primes):
-                if primes[i] != prime:
-                    if addList(temp) == num:
-                        return jsonify(temp)
-                    elif (addList(temp) + primes[i])< num:
-                        temp.append(primes[i])
-                    else:
-                        j = i-1
-                        while j>=0:
-                            if (addList(temp)+primes[i]) > num:
-                                temp.remove(min(temp))
-                            j-=1
-                        temp.append(primes[i])
+            while i < len(primes) and primes[i] != prime:
+                if addList(temp) == num:
+                    result = temp
+                    break
+                elif (addList(temp) + primes[i])< num:
+                    temp.append(primes[i])
+                else:
+                    j = i-1
+                    while j>=0:
+                        if (addList(temp)+primes[i]) > num:
+                            temp.remove(min(temp))
+                        j-=1
+                    temp.append(primes[i])
                 i+=1
+        count -= 1
 
 
     logging.info("My result :{}".format(result))
