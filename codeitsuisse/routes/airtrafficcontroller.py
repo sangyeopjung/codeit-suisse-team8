@@ -8,7 +8,7 @@ logger = logging.getLogger(__name__)
 
 
 @app.route('/airtrafficcontroller', methods=['POST'])
-def evaluate():
+def air_traffic_controller():
     data = request.get_json();
     print("data sent for evaluation {}".format(data))
 
