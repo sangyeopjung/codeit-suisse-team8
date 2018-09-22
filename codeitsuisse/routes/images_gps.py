@@ -4,7 +4,17 @@ from flask import request, jsonify;
 
 from codeitsuisse import app;
 
+import urllib
+import exifread as ef
+
 logger = logging.getLogger(__name__)
+
+def convert(value):
+    d = float(value.values[0].num) / float(value.values[0].den)
+    m = float(value.values[1].num) / float(value.values[1].den)
+    s = float(value.values[2].num) / float(value.values[2].den)
+
+    return d + (m / 60.0) + (s / 3600.0)
 
 
 @app.route('/imagesGPS', methods=['POST'])
@@ -14,26 +24,27 @@ def images_gps():
 
     gps = []
     for d in data:
-        path = d['path']
-        name = path.split('/')[-1]
+        url = d['path']
+        filepath = url.split('/')[-1]
+        f = open(filepath, 'wb')
+        f.write(urllib.request.urlopen(url).read())
+        f.close()
 
-        out = {}
-        if name == 'n7cd.jpg':
-            out['lat'] = 50.119037
-            out['long'] = 8.692717
-        elif name == 'ld0d.jpg':
-            out['lat'] = 44.494791
-            out['long'] = -107.818505
-        elif name == '0jl6.jpg':
-            out['lat'] = 1.359774
-            out['long'] = 32.555022
-        elif name == 'tid3.jpg':
-            out['lat'] = 41.504058
-            out['long'] = -81.680818
-        elif name == 'kb4v.jpg':
-            out['lat'] = 34.123458
-            out['long'] = 17.789397
-        gps.append(out)
+        with open(filepath, 'rb') as f:
+            tags = ef.process_file(f)
+            lat = tags.get('GPS GPSLatitude')
+            lat_ref = tags.get('GPS GPSLatitudeRef')
+            long = tags.get('GPS GPSLongitude')
+            long_ref = tags.get('GPS GPSLongitudeRef')
+
+            lat = convert(lat)
+            if lat_ref.values == 'S':
+                lat *= -1
+            long = convert(long)
+            if long_ref.values == 'W':
+                long *= -1
+
+            gps.append({'lat': lat, 'long': long})
 
     print("My result :{}".format(gps))
     return jsonify(gps)
