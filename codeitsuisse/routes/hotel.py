@@ -46,12 +46,16 @@ def hotel2():
             else:
                 break
 
+    # print(pos)
+
     dp = [100000000 for _ in range(n)]
     dp[0] = 1
     for i in range(1, n):
         for j in range(i):
             if pos[j + 1][i] == 1:
                 dp[i] = min(dp[i], dp[j] + 1)
+        if pos[0][i] == 1:
+            dp[i] = 1
 
     print("My result :{}".format(dp[n - 1]))
     return jsonify(answer=dp[n - 1])
