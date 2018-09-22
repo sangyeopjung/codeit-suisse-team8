@@ -16,29 +16,40 @@ def dfs(G, used, v, order):
 
 
 @app.route('/broadcaster/message-broadcast', methods=['POST'])
-def broadcaster():
+def broadcaster1():
     data = request.get_json()['data']
 
-    message_dict = dict()
-
+    headList = []
+    tailList = []
     for s in data:
         t = s.split("->")
         head, tail = t[0], t[1]
-        if t[0] in message_dict:
-            message_dict[t[0]].append(t[1])
-        else:
-            message_dict[t[0]] = [t[1]]
+        if tail not in tailList:
+            tailList.append(t[1])
+            if head not in tailList:
+                headList.append(t[0])
+    result = headList
+    print("My result :{}".format(result))
+    return jsonify(answer=result)
 
-    tempKey = ""
-    for key in message_dict.keys():
-        for val in message_dict.values():
-            if key in val:
-                tempKey = key
-    del message_dict[tempKey]
 
-    result = []
-    for key in message_dict:
-        result.append(key)
+@app.route('/broadcaster/most-connected-node', methods=['POST'])
+def broadcaster2():
+    data = request.get_json()['data']
+
+
+
+
+
+    print("My result :{}".format(result))
+    return jsonify(answer=result)
+
+
+@app.route('/broadcaster/fastest-path', methods=['POST'])
+def broadcaster2():
+    data = request.get_json()['data']
+
+
 
 
 
