@@ -9,3 +9,4 @@ import codeitsuisse.routes.images_gps
 import codeitsuisse.routes.PrimeSum
 import codeitsuisse.routes.tetris
 import codeitsuisse.routes.sorting_game
+import codeitsuisse.routes.hotel
