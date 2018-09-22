@@ -13,7 +13,6 @@ def possiblePrimeArray(num):
         for num in range(2, possiblePrime):
             if possiblePrime % num == 0:
                 isPrime = False
-
         if isPrime:
             primes.append(possiblePrime)
     return primes
@@ -30,7 +29,6 @@ def evaluatePrimeSum():
     data = request.get_json();
     logging.info("data sent for evaluation {}".format(data))
     inputValue = data.get("input");
-
     num = inputValue
     primes = possiblePrimeArray(num)
     result = []
@@ -38,7 +36,7 @@ def evaluatePrimeSum():
     for prime in primes:
         if prime == num:
             ans = [prime]
-            result.append(ans)
+            return jsonify(ans)
         else:
             i = 0
             temp = []
@@ -46,7 +44,7 @@ def evaluatePrimeSum():
             while i < len(primes):
                 if primes[i] != prime:
                     if addList(temp) == num:
-                        result.append(temp)
+                        return jsonify(temp)
                     elif (addList(temp) + primes[i])< num:
                         temp.append(primes[i])
                     else:
@@ -58,9 +56,6 @@ def evaluatePrimeSum():
                         temp.append(primes[i])
                 i+=1
 
-    result = sorted(result)
-    dedup = [result[i] for i in range(len(result)) if i == 0 or result[i] != result[i-1]]
-    result = dedup
 
     logging.info("My result :{}".format(result))
     return jsonify(result);
