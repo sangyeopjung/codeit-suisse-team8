@@ -24,12 +24,14 @@ def airtraffic():
         num0fRunways = len(runways)
         for counter, flight in enumerate(sorted_flights):
             if(flight.get("Distressed", False)):
+                flight.pop("Distressed")
                 reserved_flight = flight
                 sorted_flights.remove(flight)
                 sorted_flights.insert(0, reserved_flight)
+                #sorted_flights.pop("Distressed")
             if(counter > 0):
-                before = datetime.strptime(sorted_flights[i-1]["Time"], "%H%M")
-                after = datetime.strptime(sorted_flights[i]["Time"], "%H%M")
+                before = datetime.strptime(sorted_flights[counter-1]["Time"], "%H%M")
+                after = datetime.strptime(sorted_flights[counter]["Time"], "%H%M")
                 if after < before + timedelta(seconds=int(reservedTime)):
                      sorted_flights[counter]["Time"] = (before + timedelta(seconds=int(reservedTime))).strftime("%H%M")
         for counter, flight in enumerate(sorted_flights):
@@ -43,5 +45,5 @@ def airtraffic():
             if after < before + timedelta(seconds=int(reservedTime)):
                  sorted_flights[i]["Time"] = (before + timedelta(seconds=int(reservedTime))).strftime("%H%M")
 
-    print("My result :{}".format(result))
+    print("My result :{}".format(sorted_flights))
     return jsonify(sorted_flights)
