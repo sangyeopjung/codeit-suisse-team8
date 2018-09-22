@@ -105,7 +105,7 @@ def cmp(x, y):
 @app.route('/airtrafficcontroller', methods=['POST'])
 def air():
     data = request.get_json()
-    logging.info("data sent for evaluation {}".format(data))
+    print("data sent for evaluation {}".format(data))
 
     flights = data['Flights']
     for i in range(len(flights)):
