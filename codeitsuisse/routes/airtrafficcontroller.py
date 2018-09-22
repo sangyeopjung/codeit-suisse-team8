@@ -23,7 +23,7 @@ def airtraffic():
         runways = data.get("Static").get("Runways")
         num0fRunways = len(runways)
         for counter, flight in enumerate(sorted_flights):
-            if(sorted_flights.get("Distressed", False)):
+            if(flight.get("Distressed", False)):
                 reserved_flight = flight
                 sorted_flights.remove(flight)
                 sorted_flights.insert(0, reserved_flight)
