@@ -16,33 +16,51 @@ def dfs(G, used, v, order):
 
 
 @app.route('/broadcaster/message-broadcast', methods=['POST'])
-def broadcaster():
+def broadcaster1():
     data = request.get_json()['data']
 
-    g = {}
+    msg_dict = dict()
+
 
     for s in data:
         t = s.split("->")
-        u, v = t[0], t[1]
-        if u not in g:
-            g[u] = []
-        g[u].append(v)
+        head, tail = t[0], t[1]
+        if head in msg_dict:
+            msg_dict[head].append(tail)
+        else:
+            msg_dict[head] = [tail]
+    final = []
+    for key in msg_dict.keys():
+        for val in msg_dict.values():
+            if key in val:
+                final.append(key)
 
-    topSort = []
-    used = {}
-    for key in g:
-        if key not in used:
-            order = []
-            dfs(g, used, key, order)
-            topSort.extend(order)
+    for i in final:
+        del msg_dict[i]
+    result = list(msg_dict.keys())
+    print("My result :{}".format(result))
+    return jsonify(answer=result)
 
-    result = []
-    topSort = topSort[::-1]
-    used = {}
-    for v in topSort:
-        if v not in used:
-            result.append(v)
-            dfs(g, used, v, [])
+
+@app.route('/broadcaster/most-connected-node', methods=['POST'])
+def broadcaster2():
+    data = request.get_json()['data']
+
+
+
+
+
+    print("My result :{}".format(result))
+    return jsonify(answer=result)
+
+
+@app.route('/broadcaster/fastest-path', methods=['POST'])
+def broadcaster3():
+    data = request.get_json()['data']
+
+
+
+
 
     print("My result :{}".format(result))
     return jsonify(answer=result)

@@ -20,31 +20,29 @@ def dino():
 
     dp1 = [0 for _ in range(400010)]
     dp2 = [0 for _ in range(400010)]
-    temp = [0 for _ in range(400010)]
 
     dp1[0] = 1
     dp2[0] = 1
-    temp[0] = 1
 
     mod = 100000123
 
     for i in range(len(A)):
+        temp = dp1.copy()
         for j in range(400010):
             if dp1[j]:
                 temp[j + A[i]] += dp1[j]
                 if temp[j + A[i]] >= mod:
                     temp[j + A[i]] -= mod
-        dp1, temp = temp, dp1
+        dp1 = temp
 
-    temp = [0 for _ in range(400010)]
-    temp[0] = 1
     for i in range(len(B)):
+        temp = dp2.copy()
         for j in range(400010):
             if dp2[j]:
                 temp[j + B[i]] += dp2[j]
                 if temp[j + B[i]] >= mod:
                     temp[j + B[i]] -= mod
-        dp2, temp = temp, dp2
+        dp2 = temp
 
     le = 0
     ri = Q
