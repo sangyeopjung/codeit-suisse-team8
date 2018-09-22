@@ -21,12 +21,15 @@ def airtraffic():
     #result = {"Flights" : []}
     if "Runways" in data.get("Static").keys():
         runways = data.get("Static").Runways
+        num0fRunways = len(runways)
         for counter, flight in enumerate(sorted_flights):
-            if(flight.get("Distressed", False)):
+            if(sorted_flights.get("Distressed", False)):
                 reserved_flight = flight
-                flights.remove(flight)
-                flights.insert(0, reserved_flight)
-                
+                sorted_flights.remove(flight)
+                sorted_flights.insert(0, reserved_flight)
+        for counter, flight in enumerate(sorted_flights):
+            flight["Runway"] = runways[counter%num0fRunways]
+
         #result = {"Flights" : [{ "PlaneId": "TR123", "Time": "0200", "Runway": "A"}]}
     else:
         for i in range(1, numOfFlights):
