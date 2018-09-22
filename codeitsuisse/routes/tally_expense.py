@@ -32,9 +32,9 @@ def tally_expense():
     minus = []
     for k, v in ledger.items():
         if v < 0:
-            plus.append([k, v])
-        else:
             minus.append([k, v])
+        else:
+            plus.append([k, v])
 
     print('plus', plus)
     print('minus', minus)
@@ -43,14 +43,17 @@ def tally_expense():
     i = 0
     for p in plus:
         while p[1] > 0:
-            # if i >= len(minus):
-            #     break
+            if i >= len(minus):
+                print(plus)
+                print(minus)
+                break
 
             if p[1] >= (-1)*minus[i][1]:
                 p[1] += minus[i][1]
+                print("send ", "%.2f" % round((-1)*minus[i][1]), "from", minus[i][0], "to", p[0])
                 transactions.append({
-                    "from": p[0],
-                    "to": minus[i][0],
+                    "from": minus[i][0],
+                    "to": p[0],
                     "amount": float("%.2f" % round((-1)*minus[i][1], 2))
                 })
                 minus[i][1] = 0
@@ -58,9 +61,10 @@ def tally_expense():
 
             else:
                 minus[i][1] += p[1]
+                print("send ", "%.2f" % round(p[1]/100, 2), "from", minus[i][0], "to", p[0])
                 transactions.append({
-                    "from": p[0],
-                    "to": minus[i][0],
+                    "from": minus[i][0],
+                    "to": p[0],
                     "amount": float("%.2f" % round(p[1]/100, 2))
                 })
                 p[1] = 0
