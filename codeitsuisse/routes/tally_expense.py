@@ -43,6 +43,9 @@ def tally_expense():
     i = 0
     for p in plus:
         while p[1] > 0:
+            if i >= len(minus):
+                break
+
             if p[1] > (-1)*minus[i][1]:
                 p[1] += minus[i][1]
                 #print("send ", minus[i][0], "from", p[0], "to", minus[i][0])
