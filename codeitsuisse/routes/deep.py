@@ -1,6 +1,7 @@
 import logging
 
 import numpy as np
+import tensorflow as tf
 from sklearn.linear_model import LinearRegression
 
 from flask import request, jsonify;
@@ -33,3 +34,13 @@ def deep():
 
     return jsonify(answer=predict[0])
 
+
+@app.route('/machine-learning/question-2', methods=['POST'])
+def deeep():
+    data = request.get_json()
+
+    print("data sent for evaluation {}".format(data))
+
+    model = tf.keras.models.load_model('my_model.h5')
+    X = np.array(data['question']).reshape(-1, 28, 28)
+    print(model.predict(X))

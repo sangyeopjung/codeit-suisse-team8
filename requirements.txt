@@ -31,3 +31,5 @@ keyboard
 scikit-learn
 scipy
 treelib
+tensorflow
+h5py
