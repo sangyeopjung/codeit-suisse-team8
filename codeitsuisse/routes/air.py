@@ -97,6 +97,9 @@ def cmp_to_key(mycmp):
     return K
 
 def cmp(x, y):
+    print('fuck', x, y)
+    if x['Distressed'] != y['Distressed']:
+        return x['Distressed']
     if x['Time'] != y['Time']:
         print(x['Time'], y['Time'], x['Time'] < y['Time'])
         return x['Time'] < y['Time']
@@ -110,27 +113,38 @@ def air():
     flights = data['Flights']
     for i in range(len(flights)):
         flights[i]['Time'] = datetime(1, 1, 1, int(flights[i]['Time']) // 100, int(flights[i]['Time']) % 100, 0)
+        if 'Distressed' not in flights[i]:
+            flights[i]['Distressed'] = 1
+        elif flights[i]['Distressed'] == 'true':
+            flights[i]['Distressed'] = 0
+        else:
+            flights[i]['Distressed'] = 1
     reserve = int(data['Static']['ReserveTime'])
 
-    flights = sorted(flights, key=lambda k: (k['Time'], k['PlaneId']))
+    flights = sorted(flights, key=lambda k: (k['Distressed'], k['Time'], k['PlaneId']))
+    print(flights)
     if 'Runways' in data['Static']:
         runways = data['Static']['Runways']
         times = {}
 
         for i in range(len(runways)):
-            runways[i] = (datetime(1,1,1,0,0,0), runways[i])
-            times[runways[i][1]] = runways[i][0]
-        heapify(runways)
+            times[runways[i]] = datetime(1,1,1,0,0,0)
 
         response = []
         for flight in flights:
             #time, runway = heappop (runways)
-            rw = 'ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ'
+            rw = ''
 
             flightTime = flight['Time']
             for i in times:
+                print(times[i], flightTime)
                 if times[i] <= flightTime:
-                    rw = min(rw, i)
+                    if rw == '' or rw > i:
+                        rw = i
+            if rw == '':
+                for i in times:
+                    if rw == '' or rw > i:
+                        rw = i
             time = times[rw]
             time = max(time, flightTime)
             response.append({'PlaneId': flight['PlaneId'], 'Time': time.strftime("%H%M"), 'Runway': rw})
