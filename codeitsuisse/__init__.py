@@ -11,3 +11,4 @@ import codeitsuisse.routes.tetris
 import codeitsuisse.routes.sorting_game
 import codeitsuisse.routes.hotel
 import codeitsuisse.routes.broadcaster
+import codeitsuisse.routes.dinos
