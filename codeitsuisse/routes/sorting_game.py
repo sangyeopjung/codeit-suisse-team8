@@ -16,7 +16,7 @@ def images_gps():
     puzzle = data['puzzle']
 
     print(puzzle)
-    
+
 
     print("My result :{}".format(result))
     return jsonify(result=result)

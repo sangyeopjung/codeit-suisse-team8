@@ -15,7 +15,7 @@ def images_gps():
     actions = []
     s = data['tetrominoSequence']
 
-
+    print(s)
 
 
     print("My result :{}".format(actions))
