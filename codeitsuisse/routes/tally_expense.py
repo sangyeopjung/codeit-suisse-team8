@@ -16,16 +16,16 @@ def tally_expense():
     ledger = defaultdict(float)
     for expense in expenses:
         print(expense)
-        ledger[expense['paidBy']] += expense['amount']*100
+        ledger[expense['paidBy']] += expense['amount']
         if 'exclude' in expense:
             new_persons = [p for p in persons if p not in expense['exclude']]
-            per_head = expense['amount']*100/(n-len(expense['exclude']))
+            per_head = expense['amount']/(n-len(expense['exclude']))
             for p in new_persons:
                 ledger[p] -= per_head
                 print(p, ledger[p])
         else:
             for p in persons:
-                ledger[p] -= expense['amount']*100/n
+                ledger[p] -= expense['amount']/n
                 print(p, ledger[p])
 
     plus = []
@@ -52,7 +52,7 @@ def tally_expense():
                 transactions.append({
                     "from": p[0],
                     "to": minus[i][0],
-                    "amount": "%.2f" % round((-1)*minus[i][1]/100, 2)
+                    "amount": "%.2f" % round((-1)*minus[i][1], 2)
                 })
                 minus[i][1] = 0
                 i += 1
