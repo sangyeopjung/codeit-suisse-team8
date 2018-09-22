@@ -31,5 +31,5 @@ def deep():
 
     print("My result :{}".format(predict[0]))
 
-    return jsonify(result=predict[0])
+    return jsonify(answer=predict[0])
 
