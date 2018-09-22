@@ -28,7 +28,7 @@ def airtraffic():
                 reserved_flight = flight
                 sorted_flights.remove(flight)
                 sorted_flights.insert(0, reserved_flight)
-            if(counter > 0):
+            if(counter >= numOfRunways):
                 before = datetime.strptime(sorted_flights[counter-1]["Time"], "%H%M")
                 after = datetime.strptime(sorted_flights[counter]["Time"], "%H%M")
                 if after < before + timedelta(seconds=int(reservedTime)):
