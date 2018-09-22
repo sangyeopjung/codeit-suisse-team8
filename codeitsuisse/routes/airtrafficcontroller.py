@@ -10,7 +10,7 @@ def toInteger(n):
     return int(n)
 
 @app.route('/airtrafficcontroller', methods=['POST'])
-def evaluate():
+def airtraffic():
     data = request.get_json()
     print("data sent for evaluation {}".format(data))
 
@@ -26,6 +26,7 @@ def evaluate():
                 reserved_flight = flight
                 flights.remove(flight)
                 flights.insert(0, reserved_flight)
+                
         #result = {"Flights" : [{ "PlaneId": "TR123", "Time": "0200", "Runway": "A"}]}
     else:
         for i in range(1, numOfFlights):
