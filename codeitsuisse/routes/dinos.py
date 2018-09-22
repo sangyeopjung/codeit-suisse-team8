@@ -34,7 +34,7 @@ def dino():
                 temp[j + A[i]] += dp1[j]
                 if temp[j + A[i]] >= mod:
                     temp[j + A[i]] -= mod
-        dp1 = temp.copy()
+        dp1, temp = temp, dp1
 
     temp = [0 for _ in range(400010)]
     for i in range(len(B)):
@@ -43,7 +43,7 @@ def dino():
                 temp[j + B[i]] += dp2[j]
                 if temp[j + B[i]] >= mod:
                     temp[j + B[i]] -= mod
-        dp2 = temp.copy()
+        dp2, temp = temp, dp2
 
     le = 0
     ri = Q
