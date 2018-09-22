@@ -13,3 +13,4 @@ import codeitsuisse.routes.hotel
 import codeitsuisse.routes.broadcaster
 import codeitsuisse.routes.dinos
 import codeitsuisse.routes.deep
+import codeitsuisse.routes.skill_tree
