@@ -6,37 +6,7 @@ import random
 from datetime import datetime, timedelta
 
 logger = logging.getLogger(__name__)
-
 """
-class node(object):
-    def __init__(self, points, offense, children = None):
-        self.offense = offense
-        self.points = points
-        self.children = children or []
-        self.parent = None
-        for child in self.children:
-            child.parent = self
-"""
-
-@app.route('/skill-tree', methods=['POST'])
-def skill_tree():
-    data = request.get_json()
-    logging.info("data sent for evaluation {}".format(data))
-
-    value = data.get("boss").get("offense")
-    skills = data.get("skills")
-    num_skills = len(skills)
-    """
-    tree = Tree()
-    tree.create_node("Root", "root")
-    for index, skill in enumerate(skills):
-        if(!skill.get("require")):
-            ("data" + index) = Node(skill.get("name"), skill.get("name"), parent="root", data=skill.get("points"))
-            a.offense = 10;
-            print(a.offense);
-        else
-            tree.create_node(skill.get("name"), skill.get("name"), parent=skill.get("require"), data=skill.get("points"))
-    """
     min = -1
     points = 0
     minList = []
@@ -64,6 +34,58 @@ def skill_tree():
         if (minList is not None or temporaryPoints < min):
             minList = temporaryList
             min = temporaryPoints
-    print(count)
-    logging.info("My result :{}".format(minList))
-    return jsonify(minList)
+"""
+
+
+class node(object):
+    def __init__(self, points, offense, children = None):
+        self.offense = offense
+        self.points = points
+        self.children = children or []
+        self.parent = None
+        for child in self.children:
+            child.parent = self
+
+
+@app.route('/skill-tree', methods=['POST'])
+def skill_tree():
+    data = request.get_json()
+    print("data sent for evaluation {}".format(data))
+
+    value = data.get("boss").get("offense")
+    skills = data.get("skills")
+    num_skills = len(skills)
+
+    #tree = Tree()
+    #tree.create_node("Root", "root")
+    minPoints = 0
+    non_dependency_dict = {}
+    dependency_dict = {}
+    min_list = []
+
+    for index, skill in enumerate(skills):
+        if(skill.get("require") is not None):
+            non_dependency_dict[skill.get("name")] = skill.get("offense")
+        else:
+            dependency_dict[skill.get("require")] = (skill.get("name"), skill.get("offense")})
+
+    diff = sum(non_dependency_dict.values()) - value
+    if diff == 0:
+        minList = non_dependency_dict.keys()
+        return jsonify(minList)
+    if diff > 0:
+        
+
+    else:
+
+        """
+        if(!skill.get("require")):
+            ("data" + index) = Node(skill.get("name"), skill.get("name"), parent="root", data=skill.get("points"))
+            a.offense = 10;
+            print(a.offense);
+        else
+            tree.create_node(skill.get("name"), skill.get("name"), parent=skill.get("require"), data=skill.get("points"))
+        """
+
+    print("My result :{}".format(minList))
+    return jsonify()
