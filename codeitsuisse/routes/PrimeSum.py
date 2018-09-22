@@ -29,33 +29,27 @@ def evaluatePrimeSum():
     data = request.get_json();
     logging.info("data sent for evaluation {}".format(data))
     inputValue = data.get("input");
+
     num = inputValue
     primes = possiblePrimeArray(num)
     result = []
     count = len(primes)-1
 
-    while count >=0:
+    while count>0:
         if primes[count] == num:
-            ans = [primes[count]]
-            return jsonify(ans)
+            result = [num]
+            return jsonify(result)
         else:
-            i = 0
-            temp = []
-            temp.append(prime)
-            while i < len(primes) and primes[i] != prime:
-                if addList(temp) == num:
+            temp = [primes[count]]
+            i = count -1
+            while i>=0:
+                if (addList(temp)+primes[i]) == num:
+                    temp.append(primes[i])
                     return jsonify(temp)
-                elif (addList(temp) + primes[i])< num:
+                elif (addList(temp)+primes[i]) < num:
                     temp.append(primes[i])
-                else:
-                    j = i-1
-                    while j>=0:
-                        if (addList(temp)+primes[i]) > num:
-                            temp.remove(min(temp))
-                        j-=1
-                    temp.append(primes[i])
-                i+=1
-        count -= 1
+                i-=1
+        count -=1
 
 
     logging.info("My result :{}".format(result))
