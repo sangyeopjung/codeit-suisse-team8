@@ -63,7 +63,7 @@ def tally_expense():
                 minus[i][1] += p[1]
                 print("send ", "%.2f" % round(p[1]/100, 2), "from", minus[i][0], "to", p[0])
                 transactions.append({
-                    "from": minus[i][0],x
+                    "from": minus[i][0],
                     "to": p[0],
                     "amount": float("%.2f" % round(p[1], 2))
                 })
