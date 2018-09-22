@@ -28,7 +28,6 @@ def airtraffic():
                 reserved_flight = flight
                 sorted_flights.remove(flight)
                 sorted_flights.insert(0, reserved_flight)
-                #sorted_flights.pop("Distressed")
             if(counter > 0):
                 before = datetime.strptime(sorted_flights[counter-1]["Time"], "%H%M")
                 after = datetime.strptime(sorted_flights[counter]["Time"], "%H%M")
@@ -46,4 +45,5 @@ def airtraffic():
                  sorted_flights[i]["Time"] = (before + timedelta(seconds=int(reservedTime))).strftime("%H%M")
 
     print("My result :{}".format(sorted_flights))
-    return jsonify(sorted_flights)
+    results = {"Flights" : sorted_flights}
+    return jsonify(results)
