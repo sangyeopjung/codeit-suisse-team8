@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="2f93a891-cdbc-402d-a835-072fd816d735" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/codeitsuisse/routes/deep.py" beforeDir="false" afterPath="$PROJECT_DIR$/codeitsuisse/routes/deep.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -22,14 +21,14 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="dummy" value="22" />
-          <entry key="py" value="10111" />
+          <entry key="py" value="10250" />
           <entry key="txt" value="91" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="PLAIN_TEXT" value="113" />
-          <entry key="Python" value="10111" />
+          <entry key="Python" value="10250" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -69,8 +68,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/codeitsuisse/__init__.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="15" column="37" selection-start-line="15" selection-start-column="37" selection-end-line="15" selection-end-column="37" />
+            <state relative-caret-position="210">
+              <caret line="14" column="31" lean-forward="true" selection-start-line="14" selection-start-column="31" selection-end-line="14" selection-end-column="31" />
             </state>
           </provider>
         </entry>
@@ -96,11 +95,11 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/codeitsuisse/routes/deep.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="556">
-              <caret line="42" column="54" selection-start-line="42" selection-start-column="54" selection-end-line="42" selection-end-column="54" />
+            <state relative-caret-position="571">
+              <caret line="50" column="32" selection-start-line="50" selection-start-column="32" selection-end-line="50" selection-end-column="32" />
               <folding>
                 <element signature="e#0#14#0" expanded="true" />
-                <marker date="1537631780376" expanded="true" signature="811:812" ph="..." />
+                <marker date="1537632301404" expanded="true" signature="866:867" ph="..." />
               </folding>
             </state>
           </provider>
@@ -450,13 +449,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/codeitsuisse/routes/sorting_game.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" selection-start-line="3" selection-end-line="3" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/codeitsuisse/routes/PrimeSum.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="584">
@@ -484,13 +476,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/codeitsuisse/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="15" column="37" selection-start-line="15" selection-start-column="37" selection-end-line="15" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/codeitsuisse/routes/skill_tree.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="148">
@@ -515,13 +500,27 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/codeitsuisse/routes/sorting_game.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="3" selection-start-line="3" selection-end-line="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/codeitsuisse/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="14" column="31" lean-forward="true" selection-start-line="14" selection-start-column="31" selection-end-line="14" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/codeitsuisse/routes/deep.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="556">
-          <caret line="42" column="54" selection-start-line="42" selection-start-column="54" selection-end-line="42" selection-end-column="54" />
+        <state relative-caret-position="571">
+          <caret line="50" column="32" selection-start-line="50" selection-start-column="32" selection-end-line="50" selection-end-column="32" />
           <folding>
             <element signature="e#0#14#0" expanded="true" />
-            <marker date="1537631780376" expanded="true" signature="811:812" ph="..." />
+            <marker date="1537632301404" expanded="true" signature="866:867" ph="..." />
           </folding>
         </state>
       </provider>
