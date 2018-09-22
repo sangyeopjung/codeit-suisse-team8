@@ -41,7 +41,6 @@ def broadcaster():
     topSort = topSort[::-1]
     used = {}
     for v in topSort:
-        print(v)
         if v not in used:
             result.append(v)
             dfs(g, used, v, [])
