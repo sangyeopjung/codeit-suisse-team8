@@ -1,6 +1,7 @@
 import logging
 from datetime import datetime, timedelta
 
+from heapq import heappush, heappop, heapify
 from flask import request, jsonify;
 from codeitsuisse import app;
 
@@ -101,17 +102,6 @@ def cmp(x, y):
         return x['Time'] < y['Time']
     return x['PlaneId'] < y['PlaneId']
 
-def addTime(time, minutes):
-    h = time / 100
-    m = time % 100
-    inMins = h * 60 + m
-    inMins += minutes
-    inMins %= 60*24
-    h = inMins / 60
-    m = inMins % 60
-    return h * 100 + m
-
-
 @app.route('/airtrafficcontroller', methods=['POST'])
 def air():
     data = request.get_json()
@@ -123,11 +113,22 @@ def air():
     reserve = int(data['Static']['ReserveTime'])
 
     flights = sorted(flights, key=lambda k: (k['Time'], k['PlaneId']))
+    runways = data['Static']['Runways']
+
+    for i in range(len(runways)):
+        runways[i] = (datetime(1,1,1,0,0,0), runways[i])
+
+    print(flights)
+    heapify(runways)
 
     response = []
-    time = datetime(1,1,1,0,0)
     for flight in flights:
-        time = max(time, flight['Time'])
-        response.append({'PlaneId': flight['PlaneId'], 'Time': time.strftime("%H%M")})
+        time, runway = heappop(runways)
+        flightTime = flight['Time']
+        time = max(time, flightTime)
+        response.append({'PlaneId': flight['PlaneId'], 'Time': time.strftime("%H%M"), 'Runway': runway})
         time = time + timedelta(0, reserve)
+        heappush(runways, (time, runway))
     return jsonify(Flights=response)
+
+
