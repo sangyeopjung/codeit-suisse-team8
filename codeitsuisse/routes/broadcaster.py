@@ -46,7 +46,7 @@ def broadcaster2():
 
 
 @app.route('/broadcaster/fastest-path', methods=['POST'])
-def broadcaster2():
+def broadcaster3():
     data = request.get_json()['data']
 
 
