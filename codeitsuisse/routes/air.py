@@ -115,20 +115,28 @@ def air():
     flights = sorted(flights, key=lambda k: (k['Time'], k['PlaneId']))
     if 'Runways' in data['Static']:
         runways = data['Static']['Runways']
+        times = {}
 
         for i in range(len(runways)):
             runways[i] = (datetime(1,1,1,0,0,0), runways[i])
-
+            times[runways[i][1]] = runways[i][0]
         heapify(runways)
 
         response = []
         for flight in flights:
-            time, runway = heappop(runways)
+            #time, runway = heappop (runways)
+            rw = 'ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ'
+
             flightTime = flight['Time']
+            for i in times:
+                if times[i] <= flightTime:
+                    rw = min(rw, i)
+            time = times[rw]
             time = max(time, flightTime)
-            response.append({'PlaneId': flight['PlaneId'], 'Time': time.strftime("%H%M"), 'Runway': runway})
+            response.append({'PlaneId': flight['PlaneId'], 'Time': time.strftime("%H%M"), 'Runway': rw})
             time = time + timedelta(0, reserve)
-            heappush(runways, (time, runway))
+            times[rw] = time
+            #heappush(runways, (time, runway))
         return jsonify(Flights=response)
     else:
         response = []
