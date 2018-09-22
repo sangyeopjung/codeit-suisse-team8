@@ -16,6 +16,7 @@ def dfs(G, used, v, order):
 
 
 @app.route('/broadcaster/message-broadcast', methods=['POST'])
+@timeout(59)
 def broadcaster1():
     data = request.get_json()['data']
 
@@ -44,6 +45,7 @@ def broadcaster1():
 
 
 @app.route('/broadcaster/most-connected-node', methods=['POST'])
+@timeout(179)
 def broadcaster2():
     data = request.get_json()['data']
 
