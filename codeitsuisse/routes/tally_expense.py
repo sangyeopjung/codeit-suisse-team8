@@ -50,7 +50,7 @@ def tally_expense():
 
             if p[1] >= (-1)*minus[i][1]:
                 p[1] += minus[i][1]
-                print("send ", "%.2f" % round((-1)*minus[i][1]), "from", minus[i][0], "to", p[0])
+                print("send ", "%.2f" % round((-1)*minus[i][1], 2), "from", minus[i][0], "to", p[0])
                 transactions.append({
                     "from": minus[i][0],
                     "to": p[0],
@@ -63,9 +63,9 @@ def tally_expense():
                 minus[i][1] += p[1]
                 print("send ", "%.2f" % round(p[1]/100, 2), "from", minus[i][0], "to", p[0])
                 transactions.append({
-                    "from": minus[i][0],
+                    "from": minus[i][0],x
                     "to": p[0],
-                    "amount": float("%.2f" % round(p[1]/100, 2))
+                    "amount": float("%.2f" % round(p[1], 2))
                 })
                 p[1] = 0
 
