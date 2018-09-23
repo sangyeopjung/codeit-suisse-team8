@@ -40,7 +40,7 @@ def broadcaster1():
         if G.in_edges(node, data=True):
             continue
         else:
-            print(node)
+            #print(node)
             result.append(node)
 
 
