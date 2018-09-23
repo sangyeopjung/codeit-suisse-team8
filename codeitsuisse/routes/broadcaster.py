@@ -19,6 +19,7 @@ def dfs(G, used, v, order):
 @app.route('/broadcaster/message-broadcast', methods=['POST'])
 def broadcaster1():
     data = request.get_json()['data']
+    print(data)
 
     msg_dict = dict()
 
@@ -40,7 +41,7 @@ def broadcaster1():
         if G.in_edges(node, data=True):
             continue
         else:
-            print(node)
+            #print(node)
             result.append(node)
     result.sort()
     
