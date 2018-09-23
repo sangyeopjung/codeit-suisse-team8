@@ -74,13 +74,12 @@ def broadcaster2():
         else:
             graph[head] = [tail]
 
-    result = []
     G = nx.DiGraph()
     for k,v in graph.items():
         for vv in v:
             G.add_edge(k, vv)
 
-    result.append(most_connected_path(G)[0])
+    result = nx.dag_longest_path(G)[0]
 
 
 
