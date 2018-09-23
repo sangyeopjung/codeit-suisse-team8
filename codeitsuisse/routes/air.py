@@ -97,6 +97,9 @@ def cmp_to_key(mycmp):
     return K
 
 def cmp(x, y):
+    print('fuck', x, y)
+    if x['Distressed'] != y['Distressed']:
+        return x['Distressed']
     if x['Time'] != y['Time']:
         print(x['Time'], y['Time'], x['Time'] < y['Time'])
         return x['Time'] < y['Time']
@@ -105,30 +108,60 @@ def cmp(x, y):
 @app.route('/airtrafficcontroller', methods=['POST'])
 def air():
     data = request.get_json()
-    logging.info("data sent for evaluation {}".format(data))
+    print("data sent for evaluation {}".format(data))
 
     flights = data['Flights']
     for i in range(len(flights)):
         flights[i]['Time'] = datetime(1, 1, 1, int(flights[i]['Time']) // 100, int(flights[i]['Time']) % 100, 0)
+        if 'Distressed' not in flights[i]:
+            flights[i]['Distressed'] = 1
+        elif flights[i]['Distressed'] == 'true':
+            flights[i]['Distressed'] = 0
+        else:
+            flights[i]['Distressed'] = 1
     reserve = int(data['Static']['ReserveTime'])
 
-    flights = sorted(flights, key=lambda k: (k['Time'], k['PlaneId']))
-    runways = data['Static']['Runways']
-
-    for i in range(len(runways)):
-        runways[i] = (datetime(1,1,1,0,0,0), runways[i])
-
+    flights = sorted(flights, key=lambda k: (k['Distressed'], k['Time'], k['PlaneId']))
     print(flights)
-    heapify(runways)
+    if 'Runways' in data['Static']:
+        runways = data['Static']['Runways']
+        times = {}
 
-    response = []
-    for flight in flights:
-        time, runway = heappop(runways)
-        flightTime = flight['Time']
-        time = max(time, flightTime)
-        response.append({'PlaneId': flight['PlaneId'], 'Time': time.strftime("%H%M"), 'Runway': runway})
-        time = time + timedelta(0, reserve)
-        heappush(runways, (time, runway))
-    return jsonify(Flights=response)
+        for i in range(len(runways)):
+            times[runways[i]] = datetime(1,1,1,0,0,0)
+
+        response = []
+        for flight in flights:
+            #time, runway = heappop (runways)
+            rw = ''
+
+            flightTime = flight['Time']
+            for i in times:
+                print(times[i], flightTime)
+                if times[i] <= flightTime:
+                    if rw == '' or rw > i:
+                        rw = i
+            if rw == '':
+                for i in times:
+                    if rw == '' or rw > i:
+                        rw = i
+            time = times[rw]
+            time = max(time, flightTime)
+            response.append({'PlaneId': flight['PlaneId'], 'Time': time.strftime("%H%M"), 'Runway': rw})
+            time = time + timedelta(0, reserve)
+            times[rw] = time
+
+            print('Response: {}'.format(response))
+            #heappush(runways, (time, runway))
+        return jsonify(Flights=response)
+    else:
+        response = []
+        time = datetime(1,1,1,0,0,0)
+        for flight in flights:
+            flightTime = flight['Time']
+            time = max(time, flightTime)
+            response.append({'PlaneId': flight['PlaneId'], 'Time': time.strftime("%H%M")})
+            time = time + timedelta(0, reserve)
+        return jsonify(Flights=response)
 
 
