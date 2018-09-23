@@ -1,9 +1,6 @@
 import logging
 import networkx as nx
-<<<<<<< HEAD
-=======
 
->>>>>>> 32a9cd29089b127b088a3539066691f84d4a54ef
 from flask import request, jsonify
 from codeitsuisse import app
 
