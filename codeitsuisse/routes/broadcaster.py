@@ -1,5 +1,5 @@
 import logging
-
+import networkx as nx
 from flask import request, jsonify
 from codeitsuisse import app
 
@@ -49,27 +49,40 @@ def broadcaster1():
 def broadcaster2():
     data = request.get_json()['data']
 
-    outerList = []
+    def most_connected_path(g):
+        d = {}
+        for node in nx.topological_sort(g):
+            pairs = [(d[v][0]+1,v) for v in g.pred[node]]
+            if pairs:
+                d[node] = max(pairs)
+            else:
+                d[node] = (0, node)
+        node,(length,_)  = max(d.items(), key=lambda x:x[1])
+        path = []
+        while length > 0:
+            path.append(node)
+            length,node = d[node]
+        return list(reversed(path))
+
+
+
+
+    graph = dict()
     for s in data:
         t = s.split("->")
         head, tail = t[0], t[1]
-        innerList = [t[0], t[1]]
-        outerList.append(innerList)
+        if head in graph:
+            graph[head].append(tail)
+        else:
+            graph[head] = [tail]
 
-    length = len(outerList)
-    while True:
-        exist = False
-        for a in outerList:
-            for b in outerList:
-                if a[0] == b[-1]:
-                    exist = True
-                    b.append(a[-1])
-                    outerList.remove(a)
-                    break
-        if exist == False:
-            break
+    result = []
+    G = nx.DiGraph()
+    for k,v in graph.items():
+        for vv in v:
+            G.add_edge(k, vv)
 
-    result = [max(outerList,key=len)[0]]
+    result.append(most_connected_path(G)[0])
 
 
 

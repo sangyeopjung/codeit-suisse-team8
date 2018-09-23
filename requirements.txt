@@ -33,3 +33,4 @@ scipy
 treelib
 tensorflow
 h5py
+networkx
