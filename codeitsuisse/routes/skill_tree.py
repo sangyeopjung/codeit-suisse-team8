@@ -34,8 +34,6 @@ logger = logging.getLogger(__name__)
         if (minList is not None or temporaryPoints < min):
             minList = temporaryList
             min = temporaryPoints
-"""
-
 
 class node(object):
     def __init__(self, points, offense, children = None):
@@ -45,47 +43,99 @@ class node(object):
         self.parent = None
         for child in self.children:
             child.parent = self
-
+"""
 
 @app.route('/skill-tree', methods=['POST'])
 def skill_tree():
     data = request.get_json()
     print("data sent for evaluation {}".format(data))
 
-    value = data.get("boss").get("offense")
-    skills = data.get("skills")
-    num_skills = len(skills)
+    bossHp = data.get("boss").get("offense")
+    skillList = data.get("skills")
+    skillIndex = {};
+    parent = len(skillList)*[-1];
 
-    #tree = Tree()
-    #tree.create_node("Root", "root")
-    minPoints = 0
-    non_dependency_dict = {}
-    dependency_dict = {}
-    min_list = []
+    cnt = 0;
+    for skill in skillList:
+        skillIndex[skill["name"]] = cnt;
+        cnt += 1;
 
-    for index, skill in enumerate(skills):
-        if(skill.get("require") is not None):
-            non_dependency_dict[skill.get("name")] = skill.get("offense")
-        else:
-            dependency_dict[skill.get("require")] = (skill.get("name"), skill.get("offense")})
+    for skill in skillList:
+        if skill["require"] is not None:
+            parent[skillIndex[skill["require"]]] = skillIndex[skill["name"]];
 
-    diff = sum(non_dependency_dict.values()) - value
-    if diff == 0:
-        minList = non_dependency_dict.keys()
-        return jsonify(minList)
-    if diff > 0:
-        
+    starters = [];
+    for i in range(len(skillList)):
+        if skillList[i]["require"] is None: starters.append(i);
 
-    else:
+    skillArray = len(starters)*[0];
+    skillIdxArray = len(starters)*[0];
+    for i in range(len(starters)):
+        skillArray[i] = [];
+        skillIdxArray[i] = [];
+        tmp = starters[i];
+        while tmp is not -1:
+            skillArray[i].append(0);
+            skillIdxArray[i].append(tmp);
+            tmp = parent[tmp];
 
-        """
-        if(!skill.get("require")):
-            ("data" + index) = Node(skill.get("name"), skill.get("name"), parent="root", data=skill.get("points"))
-            a.offense = 10;
-            print(a.offense);
-        else
-            tree.create_node(skill.get("name"), skill.get("name"), parent=skill.get("require"), data=skill.get("points"))
-        """
+    totalDmg = 0;
+    for i in range(len(skillIdxArray)):
+        for j in range(len(skillIdxArray[i])):
+            skillArray[i][j] = (skillList[skillIdxArray[i][j]]["offense"],
+                                  skillList[skillIdxArray[i][j]]["points"]);
+            totalDmg += skillArray[i][j][0];
+        for j in range(1, len(skillArray[i])):
+            skillArray[i][j] = (skillArray[i][j][0] + skillArray[i][j-1][0],
+                                  skillArray[i][j][1] + skillArray[i][j-1][1]);
 
-    print("My result :{}".format(minList))
-    return jsonify()
+    d = len(skillArray)*[0];
+    trace = len(skillArray)*[0];
+
+    d[0] = totalDmg*[float('inf')];
+    trace[0] = totalDmg*[0];
+
+    trace[0][0] = -1;
+    for j in range(len(skillArray[0])):
+        d[0][skillArray[0][j][0]] = skillArray[0][j][1];
+        trace[0][skillArray[0][j][0]] = j;
+
+    for i in range(1, len(d)):
+        d[1] = totalDmg*[float('inf')];
+        trace[1] = totalDmg*[-1];
+
+        skills = skillArray[i];
+        for j in range(len(d[i])):
+            d[i][j] = d[i-1][j];
+            trace[i][j] = -1;
+            for k in range(len(skills)):
+                skill = skills[k];
+                if j-skill[0] >= 0:
+                    newCost = d[i-1][j-skill[0]] + skill[1]
+                    if(d[i][j] > newCost):
+                        d[i][j] = newCost;
+                        trace[i][j] = k;
+
+    minSkillPt = float('inf');
+    dmgDealt = 0;
+    for i in range(bossHp, totalDmg):
+        if minSkillPt > d[-1][i]:
+            minSkillPt = d[-1][i];
+            dmgDealt = i;
+
+    traces = [];
+    for i in range(len(skillArray)-1, -1, -1):
+        traces.append(trace[i][dmgDealt]);
+        if trace[i][dmgDealt] >= 0:
+            dmgDealt -= skillArray[i][trace[i][dmgDealt]][0];
+
+    traces.reverse();
+
+    ans = [];
+    for i in range(len(traces)):
+        if traces[i] >= 0:
+            for j in range(traces[i]+1):
+                ans.append(skillList[skillIdxArray[i][j]]['name']);
+
+    print("My result :{}".format(ans))
+    return jsonify(ans)
