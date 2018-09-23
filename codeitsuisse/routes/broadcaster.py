@@ -42,8 +42,8 @@ def broadcaster1():
         else:
             print(node)
             result.append(node)
-
-
+    result.sort()
+    
     print("My result :{}".format(result))
     return jsonify(answer=result)
 
