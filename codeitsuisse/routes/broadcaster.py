@@ -1,5 +1,9 @@
 import logging
 import networkx as nx
+<<<<<<< HEAD
+=======
+
+>>>>>>> 32a9cd29089b127b088a3539066691f84d4a54ef
 from flask import request, jsonify
 from codeitsuisse import app
 
@@ -18,8 +22,10 @@ def dfs(G, used, v, order):
 @app.route('/broadcaster/message-broadcast', methods=['POST'])
 def broadcaster1():
     data = request.get_json()['data']
+    print(data)
 
     msg_dict = dict()
+
 
     for s in data:
         t = s.split("->")
@@ -28,15 +34,19 @@ def broadcaster1():
             msg_dict[head].append(tail)
         else:
             msg_dict[head] = [tail]
-    final = []
-    for key in msg_dict.keys():
-        for val in msg_dict.values():
-            if key in val:
-                final.append(key)
 
-    for i in final:
-        del msg_dict[i]
-    result = list(msg_dict.keys())
+    G = nx.DiGraph()
+    for k,v in msg_dict.items():
+        for vv in v:
+            G.add_edge(k, vv)
+    result = []
+    for node in G.nodes():
+        if G.in_edges(node, data=True):
+            continue
+        else:
+            #print(node)
+            result.append(node)
+
 
     print("My result :{}".format(result))
     return jsonify(answer=result)
@@ -46,28 +56,13 @@ def broadcaster1():
 def broadcaster2():
     data = request.get_json()['data']
 
-    def most_connected_path(g):
-        d = {}
-        for node in nx.topological_sort(g):
-            pairs = [(d[v][0]+1,v) for v in g.pred[node]]
-            if pairs:
-                d[node] = max(pairs)
-            else:
-                d[node] = (0, node)
-        node,(length,_)  = max(d.items(), key=lambda x:x[1])
-        path = []
-        while length > 0:
-            path.append(node)
-            length,node = d[node]
-        return list(reversed(path))
-
-
-
-
     graph = dict()
     for s in data:
         t = s.split("->")
         head, tail = t[0], t[1]
+        if head == tail:
+            continue
+
         if head in graph:
             graph[head].append(tail)
         else:
@@ -77,10 +72,10 @@ def broadcaster2():
     for k,v in graph.items():
         for vv in v:
             G.add_edge(k, vv)
+    cycleEdge = nx.find_cycle(G)
+    G.remove_edge(cycleEdge[0][0],cycleEdge[0][1])
 
     result = nx.dag_longest_path(G)[0]
-
-
 
     print("My result :{}".format(result))
     return jsonify(answer=result)
@@ -92,51 +87,17 @@ def broadcaster3():
     sender = request.get_json()['sender']
     recipient = request.get_json()['recipient']
 
-    G = nx.DiGraph()
-    #dict_cost = {}
-    #list_send_end = []
-    dict_name = {}
-    for index, d in enumerate(data):
-        t = d.split(",")
-        path, cost = t[0], t[1]
-        print(t[0], t[1])
-        #G.add_node
-        s = path.split("->")
-        #dict_cost[(s[0], s[1])] = cost
-        new_index = 2*index
-        if (s[0] not in dict_name.keys()):
-            dict_name[s[0]] = new_index
-            print(s[0], new_index)
-            G.add_node(new_index)
+    g = nx.DiGraph()
 
-        if (s[1] not in dict_name.keys()):
-            dict_name[s[1]] = new_index + 1
-            G.add_node(new_index + 1)
-            print(s[1], new_index + 1)
-        #G.add_edge(dict_name[s[0]], dict_name[s[1]], weight = cost)
-        G.add_weighted_edges_from([(dict_name[s[0]],dict_name[s[1]],cost)])
-        print(cost)
+    # edges = []
+    for d in data:
+        d = d.split(',')
+        e, w = d[0], d[1]
+        e = e.split('->')
+        #edges.append((e[0], e[1], w))
+        g.add_edge(e[0], e[1], weight=int(w))
 
-    print(G.nodes())
-    print(G.edges())
+    result = nx.dijkstra_path(g, sender, recipient, weight='weight')
 
-        #if sender == s[0]:
-        #    list_send_end.append(s[1])
-    print(dict_name[sender], dict_name[recipient])
-    print(G.edges[dict_name[sender], dict_name[recipient]][weight])
-    list = nx.dijkstra_path(G, dict_name[sender], dict_name[recipient])
-
-
-    """
-    min_cost = dict_cost.get((sender, recepient), 0)
-    minList = [sender, recepient]
-
-    for index, city in enumerate(list_send_end):
-        tempList = []
-        tempList.append(city)
-        for key, value in tempList:
-            if
-    """
-
-    print("My result :{}".format(list))
-    return jsonify(list)
+    print("My result :{}".format(result))
+    return jsonify(result=result)
